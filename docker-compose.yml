@@ -16,10 +16,11 @@ services:
     restart: always
 
   teamcity-server:
-    image: jetbrains/teamcity-server
+    image: jetbrains/teamcity-server:10.0.1
     volumes:
       - teamcity_server_data:/data/teamcity_server/datadir
       - teamcity_server_logs:/opt/teamcity/logs
+      - ./work:/work
     ports:
       - 8111:8111
     depends_on:
@@ -29,5 +30,10 @@ services:
 
   teamcity-agent:
     image: jetbrains/teamcity-minimal-agent
+    env_file: .env
+    restart: always
+
+  teamcity-agent-k8s:
+    image: mwldk/teamcity-agent-k8s
     env_file: .env
     restart: always
